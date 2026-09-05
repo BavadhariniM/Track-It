@@ -2,6 +2,8 @@
 
 A Flutter habit-tracking app.
 
+See the [user manual](docs/user-manual.html) for usage instructions.
+
 ## Getting Started
 
 Requires the Flutter SDK matching `^3.13.2` (see `environment.sdk` in `pubspec.yaml`).

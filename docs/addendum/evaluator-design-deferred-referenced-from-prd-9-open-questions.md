@@ -1,0 +1,4 @@
+# Evaluator Design (deferred, referenced from PRD §9 Open Questions)
+
+- v2 §16.2 leaves the exact evaluator behavior for mid-period Goal Version boundaries (e.g. a Monthly goal whose rule changes on day 15 of the month) to "app-specific evaluator design" — i.e., explicitly not resolved at the requirements level. Whatever the architecture phase decides, it must preserve FR-3's guarantee (historical days evaluate against the Version active on that date) and FR-4's guarantee (status is always derived, recalculable, never a stored source of truth).
+- Import conflict resolution UX (FR-34) — v2 states the exact conflict-prompt flow is an implementation detail, only constraining that it must always prompt (never silently resolve). Concrete UX (modal, per-item review list, etc.) is for the UX phase.

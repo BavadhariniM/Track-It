@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="today_widget_label">Tracker: Today</string>
+    <string name="week_widget_label">Tracker: Week</string>
+    <string name="month_widget_label">Tracker: Month</string>
+</resources>

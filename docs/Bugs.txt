@@ -1,0 +1,23 @@
+1.Pressing any day view  shows it as today instead of today only for today 
+
+2.Reminder always disabled 
+
+3.I want Add goal set in goal view also, currently the add goal comes only in Day view
+
+4.I'm not about to mark an object as undone when I press it to done
+
+5.When i create a goal starting from a day, I'm still able to view the goals in days before start day with the maximum count required to be 0
+
+6.Let sorting be done only based on category, but not the name
+
+7.Even the goals not got a particular day are visible 
+
+8.I'm able to modify the current goals status of completion only when i go via calendar dates but not when i go via the today tab, i want both stats as well as modifying input for that day
+
+9.When i set up a weekend task, I'm seeing the the coming days in weekend are already marked as wrong even before the weekend completes, it's not supposed to evaluate when the date wasn't even reached yet
+
+10.The Atmost and exactly goal types are never showing success status even after being successful within the limit
+
+11. want to track week view for all weeks
+
+12. I shouldn't be able to mark a task in a future day is finished ( i shouldnt be able to ipdate status for future dates)

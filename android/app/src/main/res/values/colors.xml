@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Story 5.2: status-cell color vocabulary for Today/Week/Month widgets.
+     Verbatim light-mode hex values from DESIGN.md's color tokens — must stay
+     byte-identical to the dark-mode set in values-night/colors.xml and to
+     the iOS Asset Catalog color sets (Task 4.1 parity guardrail). -->
+<resources>
+    <color name="status_success_bg">#2F9E67</color>
+    <color name="status_success_on">#FFFFFF</color>
+
+    <color name="status_fail_bg">#D34A4A</color>
+    <color name="status_fail_on">#FFFFFF</color>
+
+    <color name="status_cheat_bg">#D6A631</color>
+    <color name="status_cheat_on">#3A2A05</color>
+
+    <color name="status_pending_bg">#6B7CA0</color>
+    <color name="status_pending_on">#FFFFFF</color>
+
+    <color name="status_empty_bg">#E4E7EC</color>
+    <color name="status_empty_on">#98A2B3</color>
+	<color name="ic_launcher_background">#dd660d</color>
+</resources>

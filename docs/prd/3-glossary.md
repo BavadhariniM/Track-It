@@ -1,0 +1,17 @@
+# 3. Glossary
+
+- **Goal** — A trackable commitment with a name, Tracking Type, Evaluation Period, Eligible-Days Rule, and Target Comparison, plus lifecycle state and version history. A Goal is a single persistent entity for as long as it exists: a recurring commitment like "3x/week" is never re-created period to period — it is the same Goal, re-evaluated each period, edited (via Goal Versioning) only when its rules actually change.
+- **Tracking Type** — How a Goal is logged: **Boolean** (done/not-done) or **Counter** (numeric, incrementable).
+- **Evaluation Period** — The time window a Goal's target is judged over: Daily, Weekly, Biweekly, Monthly, Quarterly, Yearly, Rolling Window, or Custom.
+- **Rolling Window** — An Evaluation Period with no fixed calendar boundary: "N times in any trailing M days."
+- **Eligible Day** — A date on which a Goal is scheduled to occur, per its Eligible-Days Rule.
+- **Eligible-Days Rule** — The rule selecting a Goal's Eligible Days. Ranges from presets (every day, workdays, weekends) to an arbitrary subset of weekdays, to Custom Recurrence, optionally modified by Blackout Dates.
+- **Custom Recurrence** — An Eligible-Days Rule expressed as every-N-days/weeks/months, a specific day of month, the Nth weekday of a month, or an explicit custom date selection. Anchored to the Goal's start date (see FR-9).
+- **Blackout Date** — A date excluded from a Goal's evaluation regardless of its underlying Eligible-Days Rule. Exempts that date from failure (like a forced Cheat Day) without reducing the Goal's eligible-day count or target (see FR-10).
+- **Target Comparison** — How a period's logged total is judged against the Goal's target: **At Least** (no maximum), **At Most** (no minimum), or **Exactly**. There is no bounded/range comparison combining both a floor and a ceiling in one Goal.
+- **Cheat Day** — A manually designated date that exempts a Goal from failing that day, bounded by a per-Goal quota (default 0) that resets each Evaluation Period. Displays yellow. Does not reduce any Target Comparison's required count (At Least, At Most, or Exactly alike).
+- **DNF (Did Not Finish)** — A manual annotation on a day, superseded once the enclosing Evaluation Period's actual outcome is known.
+- **Goal Version** — A dated segment of a Goal's rules, created whenever the Goal is edited, paused, or resumed. Historical days always evaluate against the Version in effect on that date. The sequence of Versions is visible on the Goal Detail Screen as its Version Timeline.
+- **Archive** — The only form of per-Goal deletion in the product. Preserves full history; removes the Goal from active views. (A separate, unrelated Reset/Erase-All action exists for wiping all data — see FR-36.)
+- **Derived Status** — A day's or period's calendar color/status. Always computed fresh from Goal rules + logs + Cheat Days; never stored as the primary value (the widget cache is a read-optimization of this, not an exception). Five categories: **Green** (target met), **Red** (failure is certain), **Yellow** (Cheat Day), **Gray** (nothing scheduled — zero Eligible Days), and **Pending** (a future date, or an in-progress period not yet certain to fail — visually distinct from both Gray and Red until it resolves).
+- **Streak** — Count of consecutive successful Evaluation Periods (or consecutive successful days, for Daily Goals). Not applicable to Rolling Window Goals.

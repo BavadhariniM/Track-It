@@ -1,0 +1,3 @@
+# 0. Document Purpose
+
+This PRD defines the product requirements for Tracker, a personal habit/goal tracker and calendar app. It is written for the builder (Panda), who is also the sole intended user and the developer, and it feeds directly into downstream UX and architecture work. It builds on three prior inputs — `Requirements/requirements.md` (v1 draft), `Requirements/requirements-v2.md` (v2, resolves v1's open edge cases), and `docs/brief.md` (product brief) — reconciling and, in several places, deliberately overriding their stated MVP scope per explicit decisions made during this PRD's creation (see §6 and the decision log in `.memlog.md`). Implementation-level detail (data model, algorithms, tech stack) lives in `addendum.md`, not here.

@@ -1,0 +1,23 @@
+Foldes to ignore : _bmad-output folders
+
+Goal :
+1.Do a detailed study of different modes of goals ->
+	Daily, with counter
+	Daily , with bool done or not done
+	Weekly with counterWeekly with done or not done
+	Weekly only for specific days done
+	Weekly for specific days counter
+	Monthly done or not done
+	monthly with counter
+
+2. What is listed , and how / whether the goal is marked or complete or not for the following :
+	Today
+	Past days
+	Future days
+	today from Calender on pressing today's date
+	
+3. How d day in a calender is marked as green tick or red cross
+
+4. How the week view in calender shows what is completed, and what isn't, what days to show status if it's a week view with few times a week
+
+Use C:\Users\bavad\OneDrive\Desktop\Track-It\tracker-export-20260905-085016.json for real exported data

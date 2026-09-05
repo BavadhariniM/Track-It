@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="track-it logo">
+  <title>track-it</title>
+
+  <!-- Background: solid terracotta -->
+  <rect width="512" height="512" rx="104" fill="#dd660d"/>
+
+  <!-- Earthy sand accent ring behind the badge -->
+  <circle cx="256" cy="184" r="98" fill="none" stroke="#E7C199" stroke-width="8" opacity="0.55"/>
+
+  <!-- Olive checkmark badge -->
+  <circle cx="256" cy="184" r="78" fill="#6E7B4A"/>
+  <path d="M219 187 L246 214 L297 155" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Thin clay baseline rule under the wordmark -->
+  <rect x="146" y="418" width="220" height="6" rx="3" fill="#7A3B14" opacity="0.55"/>
+
+  <!-- Wordmark -->
+  <text x="256" y="400" text-anchor="middle"
+        font-family="Arial, 'Helvetica Neue', 'Segoe UI', sans-serif"
+        font-weight="800" font-size="70" letter-spacing="-1"
+        fill="#FFFFFF">track-it</text>
+</svg>

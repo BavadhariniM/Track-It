@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Key Screen — Calendar, Month view</title>
+<style>
+/*
+  Illustrates:
+  DESIGN.md > Colors (all five status colors: success/fail/cheat/pending/empty, used identically to the dashboard)
+  DESIGN.md > Components > status-cell (fixed-size square, rounded.sm, one status color + glyph so status
+              never depends on color alone)
+  DESIGN.md > Shapes (rounded.sm for status-cell; rounded.full reserved for badges/wizard bar only — not used
+              for the "Today" jump affordance's rounded.md button)
+  EXPERIENCE.md > Information Architecture (Calendar — Month is default per FR-23; bottom tab bar)
+  EXPERIENCE.md > State Patterns > Pending vs. Empty vs. Fail (FR-4, FR-5, FR-18) — future dates render Pending,
+              not gray, per FR-4; past ineligible days render Empty; certain failures render Fail
+  EXPERIENCE.md > Interaction Primitives (persistent "today" affordance; horizontal swipe between months —
+              not shown, static mock)
+  EXPERIENCE.md > Accessibility Floor (status never color-only — glyph + color on every status-cell)
+  PRD FR-23 (Month view default, swipe between months, jump to today)
+  PRD FR-24 (week-start setting, defaulting to Monday)
+  PRD FR-25 (Goal filtering: all goals / single goal / category)
+*/
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #d9dde3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+
+  --bg-base: #F4F6F8;
+  --bg-surface: #FFFFFF;
+  --text-primary: #101828;
+  --text-secondary: #475467;
+  --text-muted: #98A2B3;
+  --border-hairline: #E4E7EC;
+  --accent: #2E6F8E;
+  --accent-on: #FFFFFF;
+  --status-success: #2F9E67;
+  --status-success-on: #FFFFFF;
+  --status-fail: #D34A4A;
+  --status-fail-on: #FFFFFF;
+  --status-cheat: #D6A631;
+  --status-cheat-on: #3A2A05;
+  --status-empty: #E4E7EC;
+  --status-empty-on: #98A2B3;
+  --status-pending: #6B7CA0;
+  --status-pending-on: #FFFFFF;
+}
+
+.screen {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.statusbar { height: 30px; flex-shrink: 0; }
+
+.content { flex: 1; overflow-y: auto; padding: 4px 16px 16px 16px; }
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 4px 0;
+}
+.header-row h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.today-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: 6px 12px;
+}
+
+/* Goal filter affordance — FR-25 */
+.filter-row { margin: 10px 0 16px 0; }
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+.filter-chip .chevron { color: var(--text-muted); font-weight: 400; }
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+.weekday-row div {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.status-cell {
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  position: relative;
+}
+.status-cell .daynum {
+  font-size: 10px;
+  font-weight: 600;
+  position: absolute;
+  top: 3px;
+  left: 5px;
+}
+.status-cell .glyph {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.status-cell.success { background: var(--status-success); color: var(--status-success-on); }
+.status-cell.fail    { background: var(--status-fail);    color: var(--status-fail-on); }
+.status-cell.cheat   { background: var(--status-cheat);   color: var(--status-cheat-on); }
+.status-cell.pending { background: var(--status-pending); color: var(--status-pending-on); }
+.status-cell.empty   { background: var(--status-empty);   color: var(--status-empty-on); }
+.status-cell.outside { opacity: 0.4; }
+
+.status-cell.today { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-hairline);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.tabbar {
+  flex-shrink: 0;
+  display: flex;
+  border-top: 1px solid var(--border-hairline);
+  background: var(--bg-surface);
+  padding: 10px 0 22px 0;
+}
+.tab { flex: 1; text-align: center; font-size: 11px; font-weight: 600; color: var(--text-muted); }
+.tab.active { color: var(--accent); }
+.tab .tab-dot { width: 5px; height: 5px; border-radius: 9999px; background: var(--accent); margin: 0 auto 4px auto; opacity: 0; }
+.tab.active .tab-dot { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="screen">
+    <div class="statusbar"></div>
+    <div class="content">
+      <div class="header-row">
+        <h1>August 2026</h1>
+        <button class="today-btn">Today</button>
+      </div>
+
+      <div class="filter-row">
+        <span class="filter-chip">All Goals <span class="chevron">▾</span></span>
+      </div>
+
+      <div class="weekday-row">
+        <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+      </div>
+
+      <div class="month-grid">
+        <!-- Week 0: trailing July -->
+        <div class="status-cell empty outside"><span class="daynum">27</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">28</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">29</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">30</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">31</span><span class="glyph">–</span></div>
+        <div class="status-cell success"><span class="daynum">1</span><span class="glyph">✓</span></div>
+        <div class="status-cell empty"><span class="daynum">2</span><span class="glyph">–</span></div>
+
+        <!-- Week 1 -->
+        <div class="status-cell success"><span class="daynum">3</span><span class="glyph">✓</span></div>
+        <div class="status-cell success"><span class="daynum">4</span><span class="glyph">✓</span></div>
+        <div class="status-cell fail"><span class="daynum">5</span><span class="glyph">✕</span></div>
+        <div class="status-cell success"><span class="daynum">6</span><span class="glyph">✓</span></div>
+        <div class="status-cell cheat"><span class="daynum">7</span><span class="glyph">C</span></div>
+        <div class="status-cell empty"><span class="daynum">8</span><span class="glyph">–</span></div>
+        <div class="status-cell empty"><span class="daynum">9</span><span class="glyph">–</span></div>
+
+        <!-- Week 2 -->
+        <div class="status-cell success"><span class="daynum">10</span><span class="glyph">✓</span></div>
+        <div class="status-cell success"><span class="daynum">11</span><span class="glyph">✓</span></div>
+        <div class="status-cell success"><span class="daynum">12</span><span class="glyph">✓</span></div>
+        <div class="status-cell fail"><span class="daynum">13</span><span class="glyph">✕</span></div>
+        <div class="status-cell success"><span class="daynum">14</span><span class="glyph">✓</span></div>
+        <div class="status-cell empty"><span class="daynum">15</span><span class="glyph">–</span></div>
+        <div class="status-cell empty"><span class="daynum">16</span><span class="glyph">–</span></div>
+
+        <!-- Week 3: today = Aug 17 (Mon) -->
+        <div class="status-cell pending today"><span class="daynum">17</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">18</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">19</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">20</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">21</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">22</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">23</span><span class="glyph">…</span></div>
+
+        <!-- Week 4 -->
+        <div class="status-cell pending"><span class="daynum">24</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">25</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">26</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">27</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">28</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">29</span><span class="glyph">…</span></div>
+        <div class="status-cell pending"><span class="daynum">30</span><span class="glyph">…</span></div>
+
+        <!-- Week 5: 31 + leading September -->
+        <div class="status-cell pending"><span class="daynum">31</span><span class="glyph">…</span></div>
+        <div class="status-cell empty outside"><span class="daynum">1</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">2</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">3</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">4</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">5</span><span class="glyph">–</span></div>
+        <div class="status-cell empty outside"><span class="daynum">6</span><span class="glyph">–</span></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--status-success);color:var(--status-success-on)">✓</span>Success</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--status-fail);color:var(--status-fail-on)">✕</span>Failed</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--status-cheat);color:var(--status-cheat-on)">C</span>Cheat day</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--status-pending);color:var(--status-pending-on)">…</span>Pending</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--status-empty);color:var(--status-empty-on)">–</span>Not eligible</div>
+      </div>
+    </div>
+
+    <div class="tabbar">
+      <div class="tab">Today</div>
+      <div class="tab active"><div class="tab-dot"></div>Calendar</div>
+      <div class="tab">Goals</div>
+      <div class="tab">Settings</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

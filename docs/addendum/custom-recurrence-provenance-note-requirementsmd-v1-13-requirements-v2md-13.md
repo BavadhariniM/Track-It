@@ -1,0 +1,3 @@
+# Custom Recurrence — Provenance Note (requirements.md v1 §13, requirements-v2.md §13)
+
+v1 §13 included an open invitation ("come up with other required options as well") that was never closed out in v2. It was closed out during this PRD's creation — the full resulting pattern set (every-N-days/weeks/months, Nth-weekday-of-month, custom dates, biweekly, quarterly, rolling windows, blackout dates) is specified in `prd.md` FR-7 through FR-10, not repeated here. If further exotic patterns surface during actual use, evaluate them against the same axis model (Evaluation Period × Eligible-Days Rule × Tracking Type × Target Comparison) rather than treating them as one-off special cases.

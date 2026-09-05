@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Story 5.2: dark-mode counterpart of values/colors.xml — same color
+     names, dark hex values from DESIGN.md's color tokens. Android resolves
+     between the two automatically via the day/night resource qualifier, so
+     Glance widgets follow system dark mode without any Kotlin branching. -->
+<resources>
+    <color name="status_success_bg">#3FBE82</color>
+    <color name="status_success_on">#0E1520</color>
+
+    <color name="status_fail_bg">#E5675F</color>
+    <color name="status_fail_on">#FFFFFF</color>
+
+    <color name="status_cheat_bg">#E3B94E</color>
+    <color name="status_cheat_on">#2A1E02</color>
+
+    <color name="status_pending_bg">#8B9BC7</color>
+    <color name="status_pending_on">#101828</color>
+
+    <color name="status_empty_bg">#26314A</color>
+    <color name="status_empty_on">#5C6B82</color>
+</resources>

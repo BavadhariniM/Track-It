@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Key Screen — Guided Goal Creation, Schedule step</title>
+<style>
+/*
+  Illustrates:
+  DESIGN.md > Components > wizard-progress (thin top-of-screen bar, filled proportionally to current step of
+              seven; no step numerals shown elsewhere in the UI — the bar itself is the only progress indicator)
+  DESIGN.md > Components > button-primary / button-secondary (Next is the single forward action; Back is
+              secondary; no tertiary/ghost style)
+  DESIGN.md > Elevation & Depth (the one shadow exception: the wizard's bottom action bar reads as "lifted",
+              0 1px 3px rgba(0,0,0,0.08))
+  DESIGN.md > Shapes (rounded.full reserved for status badges + wizard progress bar; rounded.md for buttons)
+  EXPERIENCE.md > Component Patterns > Guided creation wizard (FR-6): one decision per step, Back always
+              available, Next disabled until the step validates; keeping Evaluation Period selection visually
+              distinct from Cheat Days framing so a Weekly count goal isn't confused with a Daily+Cheat-Days goal
+  EXPERIENCE.md > Interaction Primitives (wizard navigation is linear, no step-skipping via tap-ahead)
+  EXPERIENCE.md > Key Flows > "Panda sets up an exotic goal" (Gym goal: Counter type, schedule step sets
+              Evaluation Period = Weekly and Eligible-Days = Workdays preset)
+  PRD FR-6 (guided creation step order: name → tracking type → schedule → target → dates → reminders → review)
+  PRD FR-7 (Evaluation Period types: Daily, Weekly, Biweekly, Monthly, Quarterly, Yearly, Rolling Window, Custom)
+  PRD FR-8 (Eligible-Days Rule: arbitrary selection plus presets — every day, workdays, weekends)
+*/
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #d9dde3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+
+  --bg-base: #F4F6F8;
+  --bg-surface: #FFFFFF;
+  --text-primary: #101828;
+  --text-secondary: #475467;
+  --text-muted: #98A2B3;
+  --border-hairline: #E4E7EC;
+  --accent: #2E6F8E;
+  --accent-on: #FFFFFF;
+}
+
+.screen {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.statusbar { height: 30px; flex-shrink: 0; }
+
+/* wizard-progress component: height 4px, rounded.full, track hairline, fill accent */
+.wizard-progress-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--border-hairline);
+  margin: 6px 16px 0 16px;
+  overflow: hidden;
+}
+.wizard-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--accent);
+  width: 42.8%; /* step 3 of 7 */
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 0 16px;
+}
+.cancel-link {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.content { flex: 1; overflow-y: auto; padding: 18px 20px 20px 20px; }
+
+.step-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.step-context {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  margin-bottom: 28px;
+}
+
+.field-group { margin-bottom: 28px; }
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.field-help {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.option {
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  text-align: center;
+}
+.option.selected {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-weight: 600;
+}
+
+.preset-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.preset {
+  border: 1px solid var(--border-hairline);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+.preset.selected {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-on);
+}
+
+.resolved-days {
+  margin-top: 12px;
+  display: flex;
+  gap: 6px;
+}
+.day-chip {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+.day-chip.on { background: var(--accent); color: var(--accent-on); }
+.day-chip.off { background: var(--border-hairline); color: var(--text-muted); }
+
+/* bottom action bar — the one documented shadow exception */
+.action-bar {
+  flex-shrink: 0;
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px 26px 20px;
+  background: var(--bg-surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-hairline);
+  color: var(--text-primary);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-on);
+  border: 1px solid var(--accent);
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="screen">
+    <div class="statusbar"></div>
+    <div class="top-bar">
+      <span class="cancel-link">Cancel</span>
+    </div>
+    <div class="wizard-progress-track"><div class="wizard-progress-fill"></div></div>
+
+    <div class="content">
+      <div class="step-title">Schedule</div>
+      <div class="step-context">Gym · Counter</div>
+
+      <div class="field-group">
+        <div class="field-label">Evaluation Period</div>
+        <div class="option-grid">
+          <div class="option">Daily</div>
+          <div class="option selected">Weekly</div>
+          <div class="option">Biweekly</div>
+          <div class="option">Monthly</div>
+          <div class="option">Quarterly</div>
+          <div class="option">Yearly</div>
+          <div class="option">Rolling Window</div>
+          <div class="option">Custom</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Eligible Days</div>
+        <div class="preset-row">
+          <div class="preset">Every day</div>
+          <div class="preset selected">Workdays</div>
+          <div class="preset">Weekends</div>
+          <div class="preset">Custom</div>
+        </div>
+        <div class="resolved-days">
+          <div class="day-chip on">M</div>
+          <div class="day-chip on">T</div>
+          <div class="day-chip on">W</div>
+          <div class="day-chip on">T</div>
+          <div class="day-chip on">F</div>
+          <div class="day-chip off">S</div>
+          <div class="day-chip off">S</div>
+        </div>
+        <div class="field-help">This Goal is evaluated once per week, not per day — a whole-week pass/fail, not a daily Streak.</div>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <div class="btn btn-secondary">Back</div>
+      <div class="btn btn-primary">Next</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

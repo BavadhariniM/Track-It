@@ -1,0 +1,450 @@
+<title>Goal Tracker — Color Theme Variations</title>
+<style>
+/*
+  ============================================================
+  GOAL TRACKER — COLOR THEME VARIATIONS
+  Concrete hex documentation (lift these if a theme is chosen)
+  ============================================================
+
+  THEME 1 — Instrument Panel (cool, precise, gauge-like)
+    Light: bg #F4F6F8  surface #FFFFFF  text #101828 / #475467 / #98A2B3  border #E4E7EC
+           accent #2E6F8E (on #FFFFFF)
+           success #2F9E67  fail #D34A4A  cheat #D6A631 (on #3A2A05)  empty #E4E7EC (on #98A2B3)  pending #6B7CA0
+    Dark:  bg #0E1520  surface #141C2A  text #E6EAF0 / #9AA6B8 / #5C6B82  border #26314A
+           accent #5DA8CC (on #0E1520)
+           success #3FBE82 (on #0E1520)  fail #E5675F  cheat #E3B94E (on #2A1E02)  empty #26314A (on #5C6B82)  pending #8B9BC7 (on #101828)
+
+  THEME 2 — Paper Ledger (warm, analog, tactile notebook)
+    Light: bg #F6EFE3  surface #FBF6EC  text #2B2118 / #5B4C3C / #9C8A72  border #E3D5BC
+           accent #8C5A2B (on #FFFFFF)
+           success #4F7942  fail #B23A2E  cheat #C99A2E (on #2E2205)  empty #E3D5BC (on #9C8A72)  pending #7C8B99
+    Dark:  bg #1C1712  surface #241E17  text #EDE3D3 / #C2B296 / #7C6F5B  border #3A3024
+           accent #D08A46 (on #1C1712)
+           success #7BAE68 (on #1C1712)  fail #D9695C (on #1C1712)  cheat #E0B94F (on #2E2205)  empty #3A3024 (on #7C6F5B)  pending #93A3B8 (on #1C1712)
+
+  THEME 3 — Quiet Contrast (stark monochrome + one indigo pop)
+    Light: bg #FFFFFF  surface #FFFFFF  text #0A0A0A / #404040 / #8A8A8A  border #E0E0E0
+           accent #3730E0 (on #FFFFFF)
+           success #128A4B  fail #D62828  cheat #E0A100 (on #241900)  empty #E5E5E5 (on #8A8A8A)  pending #C7C6FA (on #3730E0)
+    Dark:  bg #0A0A0A  surface #121212  text #F5F5F5 / #C2C2C2 / #7A7A7A  border #2A2A2A
+           accent #7C7AFF (on #0A0A0A)
+           success #34B573 (on #0A0A0A)  fail #FF5C5C (on #0A0A0A)  cheat #F0BB3E (on #241900)  empty #232323 (on #7A7A7A)  pending #3A3880 (on #B4B2FF)
+
+  THEME 4 — Muted Editorial (soft stone / sage / mauve, magazine calm)
+    Light: bg #F1EFEA  surface #F8F6F2  text #2E2C28 / #5C594F / #9C978A  border #DEDAD0
+           accent #7D6B85 (on #FFFFFF)
+           success #5F8A5A  fail #B5544A  cheat #C99A46 (on #2E2205)  empty #DEDAD0 (on #9C978A)  pending #6C7F94
+    Dark:  bg #201E1B  surface #2A2723  text #EDE9E2 / #C4BFB3 / #857E70  border #3E392F
+           accent #A390AA (on #201E1B)
+           success #86AC7E (on #201E1B)  fail #D08076 (on #201E1B)  cheat #DCB668 (on #2E2205)  empty #3E392F (on #857E70)  pending #90A6BA (on #201E1B)
+
+  THEME 5 — Deep Focus (dark-first, nocturnal, brass/amber evening ritual)
+    Dark:  bg #12141A  surface #181B22  text #EAEDF2 / #9BA3B0 / #5A6270  border #262B35
+           accent #C98A46 (on #12141A)
+           success #4CAE7C (on #12141A)  fail #E0574A (on #FFFFFF)  cheat #E8C55E (on #2E2205)  empty #262B35 (on #5A6270)  pending #6F8FB0 (on #12141A)
+    Light: bg #F7F5F1  surface #FFFFFF  text #1C1E24 / #565C68 / #9BA1AC  border #E5E2DA
+           accent #B5773A (on #FFFFFF)
+           success #3E8F63  fail #C8483B  cheat #C79A3B (on #2E2205)  empty #E5E2DA (on #9BA1AC)  pending #4E708F
+*/
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 32px 40px 80px;
+  background: #EEF0F2;
+  color: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.page-header { max-width: 960px; margin: 0 auto 40px; }
+.page-header h1 { font-size: 22px; margin: 0 0 6px; }
+.page-header p { margin: 0; color: #555; font-size: 14px; }
+
+.variation { max-width: 1100px; margin: 0 auto 72px; }
+.variation-header { margin-bottom: 16px; }
+.variation-header .idx { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #888; margin-bottom: 4px; }
+.variation-header h2 { margin: 0 0 4px; font-size: 20px; }
+.variation-header p.register { margin: 0; font-size: 13.5px; color: #555; font-style: italic; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
+.chip { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 8px; background: #fff; border: 1px solid #ddd; font-size: 11.5px; color: #333; }
+.chip .swatch-pair { display: flex; gap: 3px; }
+.chip .swatch { width: 13px; height: 13px; border-radius: 3px; border: 1px solid rgba(0,0,0,.18); }
+.chip .name { font-weight: 600; }
+
+.panels { display: flex; gap: 22px; flex-wrap: wrap; }
+.panel { flex: 1 1 380px; min-width: 320px; border-radius: 18px; padding: 26px; background: var(--bg-base); color: var(--text-primary); }
+.panel .mode-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; opacity: .55; margin-bottom: 14px; }
+
+.card { border-radius: 14px; padding: 18px; background: var(--bg-surface); border: 1px solid var(--border); }
+.card-title { font-weight: 600; font-size: 13.5px; margin-bottom: 12px; color: var(--text-primary); }
+.card-sub { font-size: 11px; color: var(--text-muted); margin: -8px 0 12px; }
+
+.goal-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.goal-row:last-of-type { border-bottom: none; }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.goal-name { flex: 1; font-size: 13.5px; color: var(--text-primary); }
+.goal-detail { font-size: 11.5px; color: var(--text-secondary); min-width: 30px; text-align: right; }
+.bar-track { width: 64px; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; flex-shrink: 0; }
+.bar-fill { display: block; height: 100%; border-radius: 3px; }
+
+.week-strip { display: flex; gap: 6px; margin-top: 16px; }
+.day-col { flex: 1; text-align: center; }
+.day-label { font-size: 9.5px; color: var(--text-muted); margin-bottom: 5px; letter-spacing: .04em; }
+.day-cell { aspect-ratio: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+
+.accent-btn { display: inline-block; margin-top: 16px; padding: 8px 14px; border-radius: 8px; background: var(--accent); color: var(--accent-on); font-size: 12px; font-weight: 600; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; font-size: 10.5px; color: var(--text-muted); }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+</style>
+
+<div class="page-header">
+  <h1>Goal Tracker — Color Theme Variations</h1>
+  <p>5 directions, light + dark per direction. Each reserves a legible green / red / yellow / gray / pending status set for calendar and dashboard cells, distinct from the theme's own accent hue.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- THEME 1 — INSTRUMENT PANEL -->
+<!-- ============================================================ -->
+<div class="variation">
+  <div class="variation-header">
+    <span class="idx">VARIATION 1</span>
+    <h2>Instrument Panel</h2>
+    <p class="register">Cool, precise, unshowy — a steel-blue gauge readout, not a wellness app.</p>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#F4F6F8"></span><span class="swatch" style="background:#0E1520"></span></span><span class="name">Background</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#FFFFFF"></span><span class="swatch" style="background:#141C2A"></span></span><span class="name">Surface</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#101828"></span><span class="swatch" style="background:#E6EAF0"></span></span><span class="name">Text</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#2E6F8E"></span><span class="swatch" style="background:#5DA8CC"></span></span><span class="name">Accent</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#2F9E67"></span><span class="swatch" style="background:#3FBE82"></span></span><span class="name">Success</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#D34A4A"></span><span class="swatch" style="background:#E5675F"></span></span><span class="name">Fail</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#D6A631"></span><span class="swatch" style="background:#E3B94E"></span></span><span class="name">Cheat day</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#E4E7EC"></span><span class="swatch" style="background:#26314A"></span></span><span class="name">Empty</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#6B7CA0"></span><span class="swatch" style="background:#8B9BC7"></span></span><span class="name">Pending</span></div>
+  </div>
+
+  <div class="panels">
+    <div class="panel" style="--bg-base:#F4F6F8;--bg-surface:#FFFFFF;--text-primary:#101828;--text-secondary:#475467;--text-muted:#98A2B3;--border:#E4E7EC;--accent:#2E6F8E;--accent-on:#FFFFFF;">
+      <div class="mode-label">Light</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#2F9E67"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#6B7CA0"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#6B7CA0"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#6B7CA0"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#6B7CA0"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#2F9E67;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#2F9E67;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#D34A4A;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#D6A631;color:#3A2A05">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#6B7CA0;color:#FFFFFF">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E4E7EC;color:#98A2B3">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E4E7EC;color:#98A2B3">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#2F9E67"></i>success</span><span><i style="background:#D34A4A"></i>fail</span><span><i style="background:#D6A631"></i>cheat</span><span><i style="background:#6B7CA0"></i>pending</span><span><i style="background:#E4E7EC"></i>empty</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="--bg-base:#0E1520;--bg-surface:#141C2A;--text-primary:#E6EAF0;--text-secondary:#9AA6B8;--text-muted:#5C6B82;--border:#26314A;--accent:#5DA8CC;--accent-on:#0E1520;">
+      <div class="mode-label">Dark</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#3FBE82"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#8B9BC7"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#8B9BC7"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#8B9BC7"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#8B9BC7"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#3FBE82;color:#0E1520">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#3FBE82;color:#0E1520">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#E5675F;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#E3B94E;color:#2A1E02">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#8B9BC7;color:#101828">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#26314A;color:#5C6B82">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#26314A;color:#5C6B82">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#3FBE82"></i>success</span><span><i style="background:#E5675F"></i>fail</span><span><i style="background:#E3B94E"></i>cheat</span><span><i style="background:#8B9BC7"></i>pending</span><span><i style="background:#26314A"></i>empty</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- THEME 2 — PAPER LEDGER -->
+<!-- ============================================================ -->
+<div class="variation">
+  <div class="variation-header">
+    <span class="idx">VARIATION 2</span>
+    <h2>Paper Ledger</h2>
+    <p class="register">Warm, analog, tactile — a hand-kept ledger, ink on cream paper.</p>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#F6EFE3"></span><span class="swatch" style="background:#1C1712"></span></span><span class="name">Background</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#FBF6EC"></span><span class="swatch" style="background:#241E17"></span></span><span class="name">Surface</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#2B2118"></span><span class="swatch" style="background:#EDE3D3"></span></span><span class="name">Text</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#8C5A2B"></span><span class="swatch" style="background:#D08A46"></span></span><span class="name">Accent</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#4F7942"></span><span class="swatch" style="background:#7BAE68"></span></span><span class="name">Success</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#B23A2E"></span><span class="swatch" style="background:#D9695C"></span></span><span class="name">Fail</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#C99A2E"></span><span class="swatch" style="background:#E0B94F"></span></span><span class="name">Cheat day</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#E3D5BC"></span><span class="swatch" style="background:#3A3024"></span></span><span class="name">Empty</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#7C8B99"></span><span class="swatch" style="background:#93A3B8"></span></span><span class="name">Pending</span></div>
+  </div>
+
+  <div class="panels">
+    <div class="panel" style="--bg-base:#F6EFE3;--bg-surface:#FBF6EC;--text-primary:#2B2118;--text-secondary:#5B4C3C;--text-muted:#9C8A72;--border:#E3D5BC;--accent:#8C5A2B;--accent-on:#FFFFFF;">
+      <div class="mode-label">Light</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#4F7942"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#7C8B99"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#7C8B99"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#7C8B99"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#7C8B99"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#4F7942;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#4F7942;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#B23A2E;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#C99A2E;color:#2E2205">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#7C8B99;color:#FFFFFF">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E3D5BC;color:#9C8A72">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E3D5BC;color:#9C8A72">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#4F7942"></i>success</span><span><i style="background:#B23A2E"></i>fail</span><span><i style="background:#C99A2E"></i>cheat</span><span><i style="background:#7C8B99"></i>pending</span><span><i style="background:#E3D5BC"></i>empty</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="--bg-base:#1C1712;--bg-surface:#241E17;--text-primary:#EDE3D3;--text-secondary:#C2B296;--text-muted:#7C6F5B;--border:#3A3024;--accent:#D08A46;--accent-on:#1C1712;">
+      <div class="mode-label">Dark</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#7BAE68"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#93A3B8"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#93A3B8"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#93A3B8"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#93A3B8"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#7BAE68;color:#1C1712">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#7BAE68;color:#1C1712">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#D9695C;color:#1C1712">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#E0B94F;color:#2E2205">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#93A3B8;color:#1C1712">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#3A3024;color:#7C6F5B">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#3A3024;color:#7C6F5B">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#7BAE68"></i>success</span><span><i style="background:#D9695C"></i>fail</span><span><i style="background:#E0B94F"></i>cheat</span><span><i style="background:#93A3B8"></i>pending</span><span><i style="background:#3A3024"></i>empty</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- THEME 3 — QUIET CONTRAST -->
+<!-- ============================================================ -->
+<div class="variation">
+  <div class="variation-header">
+    <span class="idx">VARIATION 3</span>
+    <h2>Quiet Contrast</h2>
+    <p class="register">Stark, minimal, almost editorial black-on-white — one indigo pop, nothing decorative.</p>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#FFFFFF"></span><span class="swatch" style="background:#0A0A0A"></span></span><span class="name">Background</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#FFFFFF"></span><span class="swatch" style="background:#121212"></span></span><span class="name">Surface</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#0A0A0A"></span><span class="swatch" style="background:#F5F5F5"></span></span><span class="name">Text</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#3730E0"></span><span class="swatch" style="background:#7C7AFF"></span></span><span class="name">Accent</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#128A4B"></span><span class="swatch" style="background:#34B573"></span></span><span class="name">Success</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#D62828"></span><span class="swatch" style="background:#FF5C5C"></span></span><span class="name">Fail</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#E0A100"></span><span class="swatch" style="background:#F0BB3E"></span></span><span class="name">Cheat day</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#E5E5E5"></span><span class="swatch" style="background:#232323"></span></span><span class="name">Empty</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#C7C6FA"></span><span class="swatch" style="background:#3A3880"></span></span><span class="name">Pending</span></div>
+  </div>
+
+  <div class="panels">
+    <div class="panel" style="--bg-base:#FFFFFF;--bg-surface:#FFFFFF;--text-primary:#0A0A0A;--text-secondary:#404040;--text-muted:#8A8A8A;--border:#E0E0E0;--accent:#3730E0;--accent-on:#FFFFFF;">
+      <div class="mode-label">Light</div>
+      <div class="card" style="border-width:1.5px;">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#128A4B"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#3730E0"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#3730E0"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#3730E0"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#3730E0"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#128A4B;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#128A4B;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#D62828;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#E0A100;color:#241900">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#C7C6FA;color:#3730E0">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E5E5E5;color:#8A8A8A">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E5E5E5;color:#8A8A8A">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#128A4B"></i>success</span><span><i style="background:#D62828"></i>fail</span><span><i style="background:#E0A100"></i>cheat</span><span><i style="background:#C7C6FA"></i>pending</span><span><i style="background:#E5E5E5"></i>empty</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="--bg-base:#0A0A0A;--bg-surface:#121212;--text-primary:#F5F5F5;--text-secondary:#C2C2C2;--text-muted:#7A7A7A;--border:#2A2A2A;--accent:#7C7AFF;--accent-on:#0A0A0A;">
+      <div class="mode-label">Dark</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#34B573"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#7C7AFF"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#7C7AFF"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#7C7AFF"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#7C7AFF"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#34B573;color:#0A0A0A">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#34B573;color:#0A0A0A">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#FF5C5C;color:#0A0A0A">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#F0BB3E;color:#241900">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#3A3880;color:#B4B2FF">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#232323;color:#7A7A7A">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#232323;color:#7A7A7A">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#34B573"></i>success</span><span><i style="background:#FF5C5C"></i>fail</span><span><i style="background:#F0BB3E"></i>cheat</span><span><i style="background:#3A3880"></i>pending</span><span><i style="background:#232323"></i>empty</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- THEME 4 — MUTED EDITORIAL -->
+<!-- ============================================================ -->
+<div class="variation">
+  <div class="variation-header">
+    <span class="idx">VARIATION 4</span>
+    <h2>Muted Editorial</h2>
+    <p class="register">Soft stone, sage, and mauve — a quiet magazine layout, not an app trying to impress.</p>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#F1EFEA"></span><span class="swatch" style="background:#201E1B"></span></span><span class="name">Background</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#F8F6F2"></span><span class="swatch" style="background:#2A2723"></span></span><span class="name">Surface</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#2E2C28"></span><span class="swatch" style="background:#EDE9E2"></span></span><span class="name">Text</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#7D6B85"></span><span class="swatch" style="background:#A390AA"></span></span><span class="name">Accent</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#5F8A5A"></span><span class="swatch" style="background:#86AC7E"></span></span><span class="name">Success</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#B5544A"></span><span class="swatch" style="background:#D08076"></span></span><span class="name">Fail</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#C99A46"></span><span class="swatch" style="background:#DCB668"></span></span><span class="name">Cheat day</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#DEDAD0"></span><span class="swatch" style="background:#3E392F"></span></span><span class="name">Empty</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#6C7F94"></span><span class="swatch" style="background:#90A6BA"></span></span><span class="name">Pending</span></div>
+  </div>
+
+  <div class="panels">
+    <div class="panel" style="--bg-base:#F1EFEA;--bg-surface:#F8F6F2;--text-primary:#2E2C28;--text-secondary:#5C594F;--text-muted:#9C978A;--border:#DEDAD0;--accent:#7D6B85;--accent-on:#FFFFFF;">
+      <div class="mode-label">Light</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#5F8A5A"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#6C7F94"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#6C7F94"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#6C7F94"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#6C7F94"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#5F8A5A;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#5F8A5A;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#B5544A;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#C99A46;color:#2E2205">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#6C7F94;color:#FFFFFF">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#DEDAD0;color:#9C978A">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#DEDAD0;color:#9C978A">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#5F8A5A"></i>success</span><span><i style="background:#B5544A"></i>fail</span><span><i style="background:#C99A46"></i>cheat</span><span><i style="background:#6C7F94"></i>pending</span><span><i style="background:#DEDAD0"></i>empty</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="--bg-base:#201E1B;--bg-surface:#2A2723;--text-primary:#EDE9E2;--text-secondary:#C4BFB3;--text-muted:#857E70;--border:#3E392F;--accent:#A390AA;--accent-on:#201E1B;">
+      <div class="mode-label">Dark</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#86AC7E"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#90A6BA"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#90A6BA"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#90A6BA"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#90A6BA"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#86AC7E;color:#201E1B">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#86AC7E;color:#201E1B">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#D08076;color:#201E1B">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#DCB668;color:#2E2205">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#90A6BA;color:#201E1B">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#3E392F;color:#857E70">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#3E392F;color:#857E70">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#86AC7E"></i>success</span><span><i style="background:#D08076"></i>fail</span><span><i style="background:#DCB668"></i>cheat</span><span><i style="background:#90A6BA"></i>pending</span><span><i style="background:#3E392F"></i>empty</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- THEME 5 — DEEP FOCUS -->
+<!-- ============================================================ -->
+<div class="variation">
+  <div class="variation-header">
+    <span class="idx">VARIATION 5</span>
+    <h2>Deep Focus</h2>
+    <p class="register">Dark-first, nocturnal, brass-lit — the calm of a nightly check-in under a desk lamp.</p>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#12141A"></span><span class="swatch" style="background:#F7F5F1"></span></span><span class="name">Background</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#181B22"></span><span class="swatch" style="background:#FFFFFF"></span></span><span class="name">Surface</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#EAEDF2"></span><span class="swatch" style="background:#1C1E24"></span></span><span class="name">Text</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#C98A46"></span><span class="swatch" style="background:#B5773A"></span></span><span class="name">Accent</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#4CAE7C"></span><span class="swatch" style="background:#3E8F63"></span></span><span class="name">Success</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#E0574A"></span><span class="swatch" style="background:#C8483B"></span></span><span class="name">Fail</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#E8C55E"></span><span class="swatch" style="background:#C79A3B"></span></span><span class="name">Cheat day</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#262B35"></span><span class="swatch" style="background:#E5E2DA"></span></span><span class="name">Empty</span></div>
+    <div class="chip"><span class="swatch-pair"><span class="swatch" style="background:#6F8FB0"></span><span class="swatch" style="background:#4E708F"></span></span><span class="name">Pending</span></div>
+  </div>
+
+  <div class="panels">
+    <div class="panel" style="--bg-base:#12141A;--bg-surface:#181B22;--text-primary:#EAEDF2;--text-secondary:#9BA3B0;--text-muted:#5A6270;--border:#262B35;--accent:#C98A46;--accent-on:#12141A;">
+      <div class="mode-label">Dark (primary)</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#4CAE7C"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#6F8FB0"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#6F8FB0"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#6F8FB0"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#6F8FB0"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#4CAE7C;color:#12141A">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#4CAE7C;color:#12141A">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#E0574A;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#E8C55E;color:#2E2205">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#6F8FB0;color:#12141A">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#262B35;color:#5A6270">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#262B35;color:#5A6270">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#4CAE7C"></i>success</span><span><i style="background:#E0574A"></i>fail</span><span><i style="background:#E8C55E"></i>cheat</span><span><i style="background:#6F8FB0"></i>pending</span><span><i style="background:#262B35"></i>empty</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="--bg-base:#F7F5F1;--bg-surface:#FFFFFF;--text-primary:#1C1E24;--text-secondary:#565C68;--text-muted:#9BA1AC;--border:#E5E2DA;--accent:#B5773A;--accent-on:#FFFFFF;">
+      <div class="mode-label">Light</div>
+      <div class="card">
+        <div class="card-title">Today · Mon, Aug 17</div>
+        <div class="goal-row"><span class="dot" style="background:#3E8F63"></span><span class="goal-name">Meditate</span><span class="goal-detail">Done</span></div>
+        <div class="goal-row"><span class="dot" style="background:#4E708F"></span><span class="goal-name">Gym · 3×/week</span><span class="bar-track"><span class="bar-fill" style="width:66%;background:#4E708F"></span></span><span class="goal-detail">2/3</span></div>
+        <div class="goal-row"><span class="dot" style="background:#4E708F"></span><span class="goal-name">Water · 8 glasses</span><span class="bar-track"><span class="bar-fill" style="width:62%;background:#4E708F"></span></span><span class="goal-detail">5/8</span></div>
+        <div class="week-strip">
+          <div class="day-col"><div class="day-label">M</div><div class="day-cell" style="background:#3E8F63;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#3E8F63;color:#FFFFFF">✓</div></div>
+          <div class="day-col"><div class="day-label">W</div><div class="day-cell" style="background:#C8483B;color:#FFFFFF">✕</div></div>
+          <div class="day-col"><div class="day-label">T</div><div class="day-cell" style="background:#C79A3B;color:#2E2205">C</div></div>
+          <div class="day-col"><div class="day-label">F</div><div class="day-cell" style="background:#4E708F;color:#FFFFFF">···</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E5E2DA;color:#9BA1AC">–</div></div>
+          <div class="day-col"><div class="day-label">S</div><div class="day-cell" style="background:#E5E2DA;color:#9BA1AC">–</div></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:#3E8F63"></i>success</span><span><i style="background:#C8483B"></i>fail</span><span><i style="background:#C79A3B"></i>cheat</span><span><i style="background:#4E708F"></i>pending</span><span><i style="background:#E5E2DA"></i>empty</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

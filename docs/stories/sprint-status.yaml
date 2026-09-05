@@ -1,0 +1,96 @@
+# generated: 2026-08-29
+# last_updated: 2026-08-29
+# project: Tracker
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: {project-root}/docs/stories
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; sprint-status surfaces open ones
+
+generated: 2026-08-29
+last_updated: 2026-08-31
+project: Tracker
+project_key: NOKEY
+tracking_system: file-system
+story_location: "{project-root}/docs/stories"
+
+development_status:
+  epic-1: in-progress
+  1-1-scaffold-the-app-and-track-a-simple-daily-goal: review
+  1-2-track-counter-goals-with-corrections: review
+  1-3-evaluate-all-evaluation-period-types: review
+  1-4-eligible-days-rules-presets-and-arbitrary-selection: review
+  1-5-custom-recurrence-patterns: review
+  1-6-blackout-dates: review
+  1-7-target-comparisons-and-free-combination: review
+  1-8-pending-certain-failure-red-and-the-zero-eligible-days-signal: review
+  1-9-guided-goal-creation-wizard: review
+  1-10-week-and-month-calendar-views: review
+  1-11-midnight-rollover-and-data-loss-bound: review
+  epic-1-retrospective: optional
+
+  epic-2: in-progress
+  2-1-edit-a-goals-rules-mid-stream: review
+  2-2-pause-and-resume-a-goal: review
+  2-3-archive-expire-and-delete-archive: review
+  2-4-cheat-days: review
+  2-5-dnf-marking: review
+  epic-2-retrospective: optional
+
+  epic-3: in-progress
+  3-1-dashboard-todays-goals-and-progress-rollups: review
+  3-2-goal-detail-screen-with-version-timeline: review
+  3-3-rule-aware-streaks: review
+  3-4-full-statistics-panel: review
+  3-5-goal-filtering-by-category: review
+  epic-3-retrospective: optional
+
+  epic-4: in-progress
+  4-1-global-daily-reminder: review
+  4-2-reminder-suppression-rules: review
+  epic-4-retrospective: optional
+
+  epic-5: in-progress
+  5-1-widget-data-bridge: review
+  5-2-today-week-month-widget-rendering: review
+  5-3-widget-tap-through: in-progress
+  epic-5-retrospective: optional
+
+  epic-6: in-progress
+  6-1-json-export: review
+  6-2-json-import-with-validation-and-conflict-resolution: review
+  6-3-reset-erase-all: review
+  epic-6-retrospective: optional

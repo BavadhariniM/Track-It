@@ -1,0 +1,15 @@
+# Reconciliation: requirements.md (v1) vs. prd.md / addendum.md
+
+**Input checked:** `Requirements/requirements.md` (v1 draft)
+
+Note: Known, deliberate deviations (exotic recurrence pulled into MVP, timezone/DST dropped, v1 §19 Future Extensibility rule types kept out of MVP, "priority" field left unresolved, multiple-entries-per-day left as architecture-only) are already documented in `addendum.md` under "Superseded / Rejected Framing" and are **not** repeated below.
+
+## Gaps found (4)
+
+- **Guided/step-by-step goal-creation flow (v1 §42 "Goal Creation UX").** v1 explicitly states creation "should be guided rather than presenting dozens of fields at once" and sketches an 8-step wizard flow (name → tracking type → schedule → target → dates → reminders → review → save). Neither `prd.md` nor `addendum.md` mentions this UX principle anywhere — FR-1 just lists the fields a Goal needs. Given the PRD *increases* goal-definition complexity (exotic recurrence, Blackout Dates, Rolling Windows all now in MVP per §4.2), the case for a guided flow is stronger than in v1, yet the requirement is silently dropped rather than carried forward or explicitly deferred to UX phase.
+
+- **Decimal/fractional quantities for Counter goals (v1 §57 edge case list).** v1's edge-case list requires explicit handling of "Decimal quantities where appropriate," and v1's own Counter examples include things like hours slept (naturally fractional, e.g. 7.5). PRD's FR-13 ("increment/decrement or directly enter a numeric value") and FR-14 (floor-at-0 correction) never state whether Counter values support decimals or are integer-only. Not addressed in the addendum either — this looks like an oversight rather than a considered scope cut.
+
+- **Future / not-yet-evaluated calendar status as a distinct state (v1 §2, §22).** v1 is explicit that "current days / weeks and future days / week must wait for the goal status to be updated, if not consider as not updated," and §22 names a distinct "Blue or neutral future status" separate from Green/Red/Yellow/Gray. PRD's status model (Derived Status in §3 Glossary, FR-4, FR-17 "Certain-Failure Red") establishes *when* a day turns red or green but never names a "pending/future" status as its own category — FR-17 only implies non-failed-yet days aren't red, without confirming they're visually distinguished from "gray = nothing scheduled." This is a qualitative UX rule from v1 that the FR list appears to have flattened away rather than explicitly carrying forward or dropping.
+
+- **Cheat Day quota periodicity (v1 §8 `cheatDayConfiguration`, §25).** v1 frames the cheat-day quota as recurring — "for a specific goal, how many cheat days in a week / month if accepted" — i.e., an allowance that resets each period. PRD's FR-15 and the Glossary define the quota only as a flat "per-Goal quota (default 0)" with no period attached, which reads as a single lifetime cap rather than a recurring weekly/monthly allowance. This narrows v1's intent without the addendum flagging it as a deliberate decision (unlike the other superseded items, which are explicitly called out).

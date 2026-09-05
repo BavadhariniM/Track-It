@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracker — User Manual</title>
+<style>
+  :root {
+    --paper: #F4F6F8;
+    --card: #FFFFFF;
+    --card-raised: #FBFCFD;
+    --ink: #101828;
+    --ink-soft: #475467;
+    --ink-muted: #98A2B3;
+    --line: #E4E7EC;
+    --accent: #2E6F8E;
+    --accent-ink: #FFFFFF;
+    --accent-wash: #E8F0F4;
+
+    --success: #2F9E67;
+    --success-on: #FFFFFF;
+    --fail: #D34A4A;
+    --fail-on: #FFFFFF;
+    --cheat: #D6A631;
+    --cheat-on: #3A2A05;
+    --empty: #E4E7EC;
+    --empty-on: #98A2B3;
+    --pending: #6B7CA0;
+    --pending-on: #FFFFFF;
+
+    --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 1px rgba(16, 24, 40, 0.04);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "URW Palladio L", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0E1520;
+      --card: #141C2A;
+      --card-raised: #182234;
+      --ink: #E6EAF0;
+      --ink-soft: #9AA6B8;
+      --ink-muted: #5C6B82;
+      --line: #26314A;
+      --accent: #5DA8CC;
+      --accent-ink: #0E1520;
+      --accent-wash: #1B2C38;
+
+      --success: #3FBE82;
+      --success-on: #0E1520;
+      --fail: #E5675F;
+      --fail-on: #FFFFFF;
+      --cheat: #E3B94E;
+      --cheat-on: #2A1E02;
+      --empty: #26314A;
+      --empty-on: #5C6B82;
+      --pending: #8B9BC7;
+      --pending-on: #101828;
+
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0E1520;
+    --card: #141C2A;
+    --card-raised: #182234;
+    --ink: #E6EAF0;
+    --ink-soft: #9AA6B8;
+    --ink-muted: #5C6B82;
+    --line: #26314A;
+    --accent: #5DA8CC;
+    --accent-ink: #0E1520;
+    --accent-wash: #1B2C38;
+
+    --success: #3FBE82;
+    --success-on: #0E1520;
+    --fail: #E5675F;
+    --fail-on: #FFFFFF;
+    --cheat: #E3B94E;
+    --cheat-on: #2A1E02;
+    --empty: #26314A;
+    --empty-on: #5C6B82;
+    --pending: #8B9BC7;
+    --pending-on: #101828;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(0, 0, 0, 0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+    font-weight: 600;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .toc-toggle { display: none; }
+
+  nav.toc {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--line);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--success);
+    color: var(--success-on);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    flex: none;
+  }
+  .brand-text { font-family: var(--serif); font-size: 19px; font-weight: 600; }
+  .brand-text small { display: block; font-family: var(--sans); font-size: 11px; font-weight: 400; color: var(--ink-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .toc-group { margin-bottom: 22px; }
+  .toc-group h5 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 0 0 8px 2px;
+  }
+  .toc-group a {
+    display: block;
+    padding: 6px 8px;
+    margin: 1px 0;
+    border-radius: 6px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14.5px;
+  }
+  .toc-group a:hover { background: var(--accent-wash); color: var(--ink); }
+
+  /* ---------- Main ---------- */
+  main { padding: 48px 40px 120px; min-width: 0; }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  header.hero h1 { font-size: clamp(30px, 4vw, 40px); margin: 0 0 14px; }
+  header.hero p.lede { font-size: 17.5px; color: var(--ink-soft); max-width: 62ch; margin: 0; }
+  header.hero { margin-bottom: 56px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+
+  section { margin-bottom: 58px; scroll-margin-top: 24px; }
+  section h2 {
+    font-size: 25px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 8px;
+  }
+  section > p.section-intro { color: var(--ink-soft); max-width: 68ch; margin: 0 0 22px; }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  p { max-width: 68ch; }
+  p, li { color: var(--ink-soft); }
+  strong { color: var(--ink); font-weight: 600; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 720px) { .grid-2, .grid-4 { grid-template-columns: 1fr; } }
+
+  .tab-card { padding: 18px 20px; }
+  .tab-card .glyph { font-size: 22px; margin-bottom: 8px; display: block; }
+  .tab-card h4 { margin: 0 0 4px; font-size: 16px; }
+  .tab-card p { margin: 0; font-size: 14px; }
+
+  /* ---------- Status legend ---------- */
+  .status-cell {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex: none;
+  }
+  .status-cell.success { background: var(--success); color: var(--success-on); }
+  .status-cell.fail { background: var(--fail); color: var(--fail-on); }
+  .status-cell.cheat { background: var(--cheat); color: var(--cheat-on); }
+  .status-cell.empty { background: var(--empty); color: var(--empty-on); }
+  .status-cell.pending { background: var(--pending); color: var(--pending-on); }
+
+  .legend { display: flex; flex-direction: column; gap: 2px; }
+  .legend-row {
+    display: grid;
+    grid-template-columns: 34px 108px 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .legend-row:last-child { border-bottom: none; }
+  .legend-row .name { font-weight: 600; color: var(--ink); font-size: 14.5px; }
+  .legend-row .desc { font-size: 14px; margin: 0; color: var(--ink-soft); }
+
+  /* ---------- Steps ---------- */
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  ol.steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 4px 0 20px 44px;
+    border-left: 2px solid var(--line);
+    margin-left: 15px;
+  }
+  ol.steps li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ol.steps h4 { margin: 0 0 4px; font-size: 15.5px; color: var(--ink); }
+  ol.steps p { margin: 0; font-size: 14.5px; }
+
+  /* ---------- Recipe / mode cards ---------- */
+  .mode-card {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .mode-card .mode-name { font-weight: 600; color: var(--ink); font-size: 15px; }
+  .mode-card .mode-example {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent);
+    background: var(--accent-wash);
+    padding: 3px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    width: fit-content;
+    font-variant-numeric: tabular-nums;
+  }
+  .mode-card p { margin: 0; font-size: 13.5px; }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 12px 16px;
+    background: var(--card-raised);
+    border-bottom: 1px solid var(--line);
+  }
+  tbody td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-soft); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.emph { color: var(--ink); font-weight: 600; white-space: nowrap; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--accent-wash);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--card-raised);
+    font-size: 14.5px;
+  }
+  .callout .glyph { flex: none; font-size: 18px; line-height: 1.4; }
+  .callout p { margin: 0; }
+  .callout.tip { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+
+  /* ---------- Goal-row mock ---------- */
+  .mock-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+  }
+  .mock-row .name { flex: 1; font-weight: 500; color: var(--ink); font-size: 15px; }
+  .mock-row .frac { font-family: var(--mono); font-size: 13.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .mock-row .bar { width: 60px; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; margin-top: 4px; }
+  .mock-row .bar > span { display: block; height: 100%; background: var(--accent); }
+  .mock-row .right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+
+  /* ---------- FAQ ---------- */
+  details.faq {
+    border-bottom: 1px solid var(--line);
+    padding: 14px 2px;
+  }
+  details.faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 15.5px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+";
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent);
+    flex: none;
+    transition: transform 0.15s ease;
+  }
+  details.faq[open] summary::after { transform: rotate(45deg); }
+  details.faq p { margin: 10px 0 0; font-size: 14.5px; }
+
+  footer {
+    padding: 32px 40px 60px;
+    color: var(--ink-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 880px) {
+    .shell { grid-template-columns: 1fr; }
+    nav.toc {
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 18px 20px;
+    }
+    .toc-toggle:not(:checked) ~ .toc-body { display: none; }
+    label.toc-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    main { padding: 32px 20px 100px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="toc">
+    <input type="checkbox" id="toc-toggle" class="toc-toggle" checked>
+    <label class="brand toc-label" for="toc-toggle">
+      <span style="display:flex; align-items:center; gap:10px;">
+        <span class="brand-mark">✓</span>
+        <span class="brand-text">Tracker<small>User Manual</small></span>
+      </span>
+    </label>
+    <div class="toc-body">
+      <div class="toc-group">
+        <h5>Start here</h5>
+        <a href="#welcome">Welcome</a>
+        <a href="#tabs">The four tabs</a>
+        <a href="#creating">Creating a goal</a>
+      </div>
+      <div class="toc-group">
+        <h5>How goals work</h5>
+        <a href="#rhythms">Choosing a rhythm</a>
+        <a href="#tracking-types">Done, or how much</a>
+        <a href="#logging">Logging progress</a>
+      </div>
+      <div class="toc-group">
+        <h5>Reading the calendar</h5>
+        <a href="#legend">The five colors</a>
+        <a href="#today-vs-period">Today vs. the whole period</a>
+        <a href="#browsing">Browsing weeks &amp; months</a>
+      </div>
+      <div class="toc-group">
+        <h5>Exceptions</h5>
+        <a href="#blackout-cheat">Blackout &amp; Cheat Days</a>
+        <a href="#dnf">Marking a day DNF</a>
+      </div>
+      <div class="toc-group">
+        <h5>Staying on top of things</h5>
+        <a href="#stats">Streaks &amp; stats</a>
+        <a href="#managing">Editing, pausing, archiving</a>
+        <a href="#filtering">Filtering your view</a>
+        <a href="#settings">Settings &amp; backup</a>
+      </div>
+      <div class="toc-group">
+        <h5>Help</h5>
+        <a href="#faq">Quick answers</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero" id="welcome">
+      <p class="eyebrow">Getting to know Tracker</p>
+      <h1>Your goals, kept honest.</h1>
+      <p class="lede">Tracker is a personal goal &amp; habit log. You decide how often something should happen — every day, a few times a week, once a month — and Tracker's calendar tells you, in one glance, whether you actually did it. This manual walks through every screen and every color you'll come across.</p>
+    </header>
+
+    <section id="tabs">
+      <h2>The four tabs</h2>
+      <p class="section-intro">Everything in Tracker lives behind four tabs at the bottom of the screen.</p>
+      <div class="grid-4">
+        <div class="card tab-card"><span class="glyph">☀️</span><h4>Today</h4><p>Every goal eligible today, in one list, plus what's still open this week and this month.</p></div>
+        <div class="card tab-card"><span class="glyph">📅</span><h4>Calendar</h4><p>The month grid — one color per day, and the screens for browsing weeks. Tracker's default screen.</p></div>
+        <div class="card tab-card"><span class="glyph">🚩</span><h4>Goals</h4><p>Every goal you've created, with tools to edit, pause, or archive one.</p></div>
+        <div class="card tab-card"><span class="glyph">⚙️</span><h4>Settings</h4><p>Week start day, reminders, and backing up or restoring your data.</p></div>
+      </div>
+    </section>
+
+    <section id="creating">
+      <h2>Creating a goal</h2>
+      <p class="section-intro">Tap the <strong>+</strong> button from Today or Calendar. A short wizard asks five questions — none of them optional, but none of them permanent either. You can change any of it later.</p>
+      <ol class="steps">
+        <li>
+          <h4>Name it</h4>
+          <p>Something you'll recognize at a glance — "Drink water," "Gym," "Pay rent." An optional category (like <em>Exercise</em> or <em>Finance</em>) lets you filter for it later.</p>
+        </li>
+        <li>
+          <h4>Pick how you'll track it</h4>
+          <p><strong>Done / Not Done</strong> for things with no number attached (meditated, or didn't). <strong>Counter</strong> for things you count (glasses of water, push-ups, pages read).</p>
+        </li>
+        <li>
+          <h4>Set the rhythm</h4>
+          <p>Every day, certain days of the week, once a week, once a month — see <a href="#rhythms">Choosing a rhythm</a> below for the full set of options.</p>
+        </li>
+        <li>
+          <h4>Set the target</h4>
+          <p>For a Counter goal: how many, and whether that's a floor to reach, a ceiling not to cross, or an exact number.</p>
+        </li>
+        <li>
+          <h4>Reminders &amp; review</h4>
+          <p>Optionally set a daily nudge, then confirm — the wizard shows you a plain-English sentence describing exactly what you've set up before you save it.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="rhythms">
+      <h2>Choosing a rhythm</h2>
+      <p class="section-intro">A goal's rhythm is <em>when</em> it needs doing and <em>how often the calendar checks</em>. These are the building blocks — mix and match them freely.</p>
+      <div class="grid-2">
+        <div class="card mode-card"><span class="mode-name">Every day</span><span class="mode-example">Meditate — daily</span><p>Checked once per day. Miss a day and that day alone is marked missed.</p></div>
+        <div class="card mode-card"><span class="mode-name">Specific weekdays</span><span class="mode-example">Gym — Mon / Wed / Fri</span><p>Only those weekdays count as eligible; every other day is simply blank.</p></div>
+        <div class="card mode-card"><span class="mode-name">Workdays or weekends only</span><span class="mode-example">Coffee limit — workdays</span><p>Two common weekday presets, built the same way as any custom pick.</p></div>
+        <div class="card mode-card"><span class="mode-name">Once a week</span><span class="mode-example">Read — 1×/week</span><p>Checked at the end of the week (whichever day you set as your week's start).</p></div>
+        <div class="card mode-card"><span class="mode-name">Several times a week</span><span class="mode-example">Workout — 3×/week</span><p>Do it on any three days within the week — Tracker doesn't care which three.</p></div>
+        <div class="card mode-card"><span class="mode-name">Once a month</span><span class="mode-example">Pay rent — monthly</span><p>Checked at month's end; any day of the month satisfies it.</p></div>
+        <div class="card mode-card"><span class="mode-name">Every N days / weeks</span><span class="mode-example">Water plants — every 3 days</span><p>Counts from the day you created the goal, not the calendar's own weeks.</p></div>
+        <div class="card mode-card"><span class="mode-name">A specific date each month</span><span class="mode-example">Deep clean — 2nd Saturday</span><p>For chores tied to a recurring date rather than a fixed weekday count.</p></div>
+      </div>
+    </section>
+
+    <section id="tracking-types">
+      <h2>Done, or how much</h2>
+      <p class="section-intro">Every Counter goal also needs a comparison — it changes what "success" means for the exact same number.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Comparison</th><th>Means</th><th>Example</th><th>0 logged reads as</th></tr></thead>
+          <tbody>
+            <tr><td class="emph">At least</td><td>A floor to reach or beat</td><td>Water — at least 8 glasses</td><td>Not yet met — keep going</td></tr>
+            <tr><td class="emph">At most</td><td>A ceiling not to cross</td><td>Coffee — at most 2</td><td>Well within limit — perfectly fine</td></tr>
+            <tr><td class="emph">Exactly</td><td>A precise number</td><td>Stairs — exactly 2 flights</td><td>Short of the mark — not yet done</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip" style="margin-top:18px;">
+        <span class="glyph">💡</span>
+        <p><strong>Why "0/2" can be green.</strong> On an <strong>at most</strong> goal, the fraction shows a <code>≤</code> before the target — like <code>0/≤2</code> — so you can tell at a glance it's a limit, not a floor. Zero used is a genuine success, not an unfinished task. An <strong>exactly</strong> goal shows <code>=</code> the same way.</p>
+      </div>
+      <h3>What it looks like</h3>
+      <p style="margin-bottom:12px;">The right-hand side of every goal row shows this fraction and a thin progress bar:</p>
+      <div style="display:flex; flex-direction:column; gap:10px; max-width:420px;">
+        <div class="mock-row"><span class="name">Water</span><div class="right"><span class="frac">1/8</span><span class="bar"><span style="width:12%; background:var(--pending);"></span></span></div><div class="status-cell pending">…</div></div>
+        <div class="mock-row"><span class="name">Coffee</span><div class="right"><span class="frac">0/≤2</span><span class="bar"><span style="width:0%;"></span></span></div><div class="status-cell success">✓</div></div>
+        <div class="mock-row"><span class="name">Stairs</span><div class="right"><span class="frac">2/=2</span><span class="bar"><span style="width:100%;"></span></span></div><div class="status-cell success">✓</div></div>
+      </div>
+    </section>
+
+    <section id="logging">
+      <h2>Logging progress</h2>
+      <p class="section-intro">You can log a goal from the Today tab, or from any date on the Calendar — logging a past day works exactly the same as logging today.</p>
+      <ul>
+        <li><strong>Done/Not Done goals</strong> — tap the row once to mark it done; tap again to undo it, exactly as if you'd never touched it.</li>
+        <li><strong>Counter goals</strong> — tap the row to open a stepper: large <strong>+</strong> / <strong>−</strong> buttons for quick taps, or tap the number itself to type an exact value.</li>
+        <li><strong>Long-press any row</strong> to open the Blackout Date / Cheat Day sheet for that date (see <a href="#blackout-cheat">below</a>).</li>
+      </ul>
+    </section>
+
+    <section id="legend">
+      <h2>The five colors</h2>
+      <p class="section-intro">Every day, on every screen, resolves to exactly one of five states. Learn these once and the whole calendar reads at a glance.</p>
+      <div class="card" style="padding: 6px 18px;">
+        <div class="legend">
+          <div class="legend-row"><div class="status-cell success">✓</div><span class="name">Success</span><p class="desc">Done, or your target was met.</p></div>
+          <div class="legend-row"><div class="status-cell fail">✕</div><span class="name">Failed</span><p class="desc">The day (or period) is over and the target genuinely wasn't met — not just "not yet."</p></div>
+          <div class="legend-row"><div class="status-cell cheat">C</div><span class="name">Cheat day</span><p class="desc">You spent one of your planned passes on this day — see <a href="#blackout-cheat">Cheat Days</a>.</p></div>
+          <div class="legend-row"><div class="status-cell empty">–</div><span class="name">Not eligible</span><p class="desc">This goal simply isn't scheduled for this day (or it's a Blackout Date) — nothing to log here.</p></div>
+          <div class="legend-row"><div class="status-cell pending">…</div><span class="name">Still open</span><p class="desc">Today or a future day, or a week/month that hasn't closed yet — the outcome isn't decided.</p></div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:18px;">
+        <span class="glyph">⏳</span>
+        <p><strong>Red only means "certain."</strong> Tracker never marks a day red just because you haven't hit the target <em>yet</em> — a "3×/week" goal stays gray all week until either you've made it mathematically impossible to reach 3, or the week is over and you fell short. Gray only turns to red once there's truly no way back.</p>
+      </div>
+    </section>
+
+    <section id="today-vs-period">
+      <h2>Today vs. the whole period</h2>
+      <p class="section-intro">This is the one idea worth sitting with, because it explains something that otherwise looks like a bug.</p>
+      <p>A goal like "Read, at least twice a week" is asking two different questions at once: <em>did I read today?</em> and <em>have I read twice this week?</em> Tracker answers both, in different places:</p>
+      <ul>
+        <li>On the <strong>Today</strong> tab and in <strong>Day View</strong>, the checkmark answers the first question — it turns green the moment <em>that specific day</em> is logged, even if the week isn't finished yet.</li>
+        <li>In the <strong>weekly rollup</strong> and on the <strong>Goal Detail</strong> screen, the streak and stats answer the second question — whether the week's target was actually reached.</li>
+      </ul>
+      <p>So it's entirely normal to mark today done and see it turn green immediately, while the goal's overall week is still shown as "in progress" elsewhere — those are two honest, different answers, not a contradiction.</p>
+    </section>
+
+    <section id="browsing">
+      <h2>Browsing weeks &amp; months</h2>
+      <p class="section-intro">The Calendar tab opens on the month grid — swipe left or right to move between months, and tap <strong>Jump to today</strong> to snap back.</p>
+      <h3>Week View</h3>
+      <p>Open it from the calendar's app bar to see one row per goal, one cell per day of the week — and swipe to browse any week, past or future, the same way you browse months.</p>
+      <h3>Weeks this month</h3>
+      <p>A second view, next to Week View, lays out every goal against every week of the month in one grid — so you can see at a glance which weeks were a clean success for each goal, without opening each one individually.</p>
+    </section>
+
+    <section id="blackout-cheat">
+      <h2>Blackout &amp; Cheat Days</h2>
+      <p class="section-intro">Long-press any day to reach both — they exist so a planned exception never counts against you, but they mean slightly different things.</p>
+      <div class="grid-2">
+        <div class="card mode-card">
+          <span class="mode-name">Blackout Date</span>
+          <p>A day this goal simply doesn't apply — a trip, an injury, a holiday. Unlimited, and never counted as a miss. Shown as the plain "not eligible" dash, indistinguishable from a day the goal was never scheduled for.</p>
+        </div>
+        <div class="card mode-card">
+          <span class="mode-name">Cheat Day</span>
+          <p>A deliberate, planned skip within a limited allowance you set when creating the goal — used up per period. Shown with its own gold "C," so you can see exactly which days you spent one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="dnf">
+      <h2>Marking a day "Did Not Finish"</h2>
+      <p class="section-intro">Sometimes you already know a day is a write-off before it's technically over.</p>
+      <p>Open a still-undecided day and choose <strong>Mark DNF</strong> to flag it as given up on. A small "DNF · pending period close" note appears under the goal's name — but the day's actual color doesn't change because of the flag alone: it only reflects reality once the day or period truly resolves. If another day later in the same week still saves the target, the DNF note simply disappears — it was never more than a personal note to yourself.</p>
+    </section>
+
+    <section id="stats">
+      <h2>Streaks &amp; stats</h2>
+      <p class="section-intro">Tap a goal's name anywhere to open its Goal Detail page.</p>
+      <div class="grid-4">
+        <div class="card tab-card"><h4>Current streak</h4><p>Consecutive successful periods, ending at the most recent one that's actually finished.</p></div>
+        <div class="card tab-card"><h4>Longest streak</h4><p>Your best run ever, even if it isn't the one you're on now.</p></div>
+        <div class="card tab-card"><h4>Completion %</h4><p>Successful periods out of every period that's been decided — paused stretches don't count against you.</p></div>
+        <div class="card tab-card"><h4>Cheat days used</h4><p>A running count, so you always know how much allowance is left.</p></div>
+      </div>
+      <p style="margin-top:18px;">Below the numbers, a <strong>Version Timeline</strong> shows every time you've changed this goal's rules, and a <strong>Historical Calendar</strong> shows its whole life, one small square per day.</p>
+    </section>
+
+    <section id="managing">
+      <h2>Editing, pausing, archiving</h2>
+      <p class="section-intro">Three buttons on Goal Detail, each for a different situation.</p>
+      <ul>
+        <li><strong>Edit</strong> — change the rhythm, target, or tracking type. Past days keep the rules that were active when you logged them; only new days use the update.</li>
+        <li><strong>Pause</strong> — for a stretch where the goal genuinely doesn't apply (illness, travel). Paused days show no color at all and never count toward streaks or stats. Resume whenever you're ready.</li>
+        <li><strong>Archive</strong> — retire a goal for good. It disappears from Today and Calendar, but its full history stays on Goal Detail if you ever want to look back.</li>
+      </ul>
+    </section>
+
+    <section id="filtering">
+      <h2>Filtering your view</h2>
+      <p class="section-intro">The chip row above every calendar screen — <strong>All</strong>, then one chip per category, then one per individual goal — narrows everything below it to just what you tap. Handy when one crowded day is hard to read at a glance.</p>
+    </section>
+
+    <section id="settings">
+      <h2>Settings &amp; backup</h2>
+      <div class="grid-2">
+        <div class="card mode-card"><span class="mode-name">Week starts on</span><p>Monday or Sunday — changes the first column of every calendar and week view immediately.</p></div>
+        <div class="card mode-card"><span class="mode-name">Reminders</span><p>One daily notification time, listing whatever's still open that day.</p></div>
+        <div class="card mode-card"><span class="mode-name">Export data</span><p>Saves every goal, log, and setting to a single file — a backup, or a way to move to a new device.</p></div>
+        <div class="card mode-card"><span class="mode-name">Import data</span><p>Restores from an exported file; Tracker warns you first about anything that would conflict.</p></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>Quick answers</h2>
+      <details class="faq" open>
+        <summary>Why does my goal still show gray after I marked it done?</summary>
+        <p>Check which screen you're on. A weekly or monthly goal's <em>rollup</em> stays gray until the whole period is decided, even though that day's own checkmark on Today/Day View already went green — see <a href="#today-vs-period">Today vs. the whole period</a>.</p>
+      </details>
+      <details class="faq">
+        <summary>I undid a past day and it turned red instead of gray — is that a bug?</summary>
+        <p>No — a day that's already over only has two honest outcomes: done, or missed. Gray only ever means "still undecided," which is only true for today or the future. Undoing a past day correctly falls back to red if nothing was logged.</p>
+      </details>
+      <details class="faq">
+        <summary>What's the difference between At Least, At Most, and Exactly?</summary>
+        <p>At Least is a floor (hit it or go over). At Most is a ceiling (stay at or under it). Exactly demands the precise number — going over fails it immediately, same as At Most.</p>
+      </details>
+      <details class="faq">
+        <summary>Can I log a day I missed a week ago?</summary>
+        <p>Yes. Open that date from the Calendar and log it exactly as you would today — Tracker treats every date the same way for logging.</p>
+      </details>
+      <details class="faq">
+        <summary>Does pausing a goal hurt my streak?</summary>
+        <p>No. A paused stretch is skipped entirely — it's neither a success nor a failure, and your streak picks up again unaffected once you resume.</p>
+      </details>
+    </section>
+  </main>
+</div>
+</body>
+</html>
